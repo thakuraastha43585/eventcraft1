@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday</title>
+<style>
+  :root{
+    --pink-50:#fff2f6;
+    --pink-100:#ffe1ea;
+    --pink-300:#ffaecb;
+    --pink-500:#ff6fa5;
+    --pink-700:#d94577;
+    --plum-800:#7a2149;
+    --cream:#fff8f2;
+    --gold:#e8b34f;
+    --ink:#3a1626;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;
+    height:100%;
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background:var(--pink-50);
+    color:var(--ink);
+    overflow:hidden;
+  }
+  body{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  #app{
+    width:100%;
+    max-width:420px;
+    height:100vh;
+    max-height:900px;
+    position:relative;
+    background:linear-gradient(180deg,var(--pink-100),var(--pink-50) 40%);
+    overflow:hidden;
+    box-shadow:0 20px 60px rgba(122,33,73,0.25);
+  }
+  .screen{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:32px 24px;
+    text-align:center;
+    opacity:0;
+    pointer-events:none;
+    transform:translateY(12px);
+    transition:opacity .5s ease, transform .5s ease;
+  }
+  .screen.active{
+    opacity:1;
+    pointer-events:auto;
+    transform:translateY(0);
+  }
+
+  h1,h2,h3{
+    font-family: 'Brush Script MT', 'Segoe Script', cursive;
+    margin:0;
+    color:var(--plum-800);
+  }
+
+  .script-font{ font-family:'Brush Script MT','Segoe Script',cursive; }
+
+  button{
+    font-family:inherit;
+    border:none;
+    cursor:pointer;
+  }
+  .primary-btn{
+    margin-top:28px;
+    background:var(--pink-700);
+    color:#fff;
+    padding:13px 34px;
+    border-radius:30px;
+    font-size:16px;
+    font-weight:600;
+    letter-spacing:.3px;
+    box-shadow:0 8px 20px rgba(217,69,119,.35);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .primary-btn:hover{ transform:translateY(-2px); box-shadow:0 12px 26px rgba(217,69,119,.45); }
+  .primary-btn:active{ transform:translateY(0); }
+  .primary-btn:disabled{
+    background:#e7c7d4;
+    box-shadow:none;
+    cursor:not-allowed;
+  }
+
+  /* ---------- Screen 1 : name entry ---------- */
+  #screen-name .kicker{
+    font-size:13px;
+    letter-spacing:1.5px;
+    color:var(--pink-700);
+    font-weight:600;
+    text-transform:uppercase;
+  }
+  #screen-name h2{
+    font-size:34px;
+    margin:10px 0 6px;
+  }
+  #screen-name p.sub{
+    color:#8a5468;
+    font-size:14.5px;
+    max-width:280px;
+    line-height:1.5;
+    margin:0;
+  }
+  #nameInput{
+    margin-top:26px;
+    width:100%;
+    max-width:260px;
+    padding:13px 18px;
+    border-radius:26px;
+    border:2px solid var(--pink-300);
+    background:#fff;
+    font-size:16px;
+    text-align:center;
+    color:var(--plum-800);
+    outline:none;
+    transition:border-color .2s ease;
+  }
+  #nameInput:focus{ border-color:var(--pink-700); }
+  .balloon-deco{
+    position:absolute;
+    font-size:28px;
+    opacity:.5;
+    animation:float-slow 6s ease-in-out infinite;
+  }
+
+  /* ---------- Screen 2 : intro gif ---------- */
+  #screen-gif{ padding:0; justify-content:flex-start; }
+  .gif-wrap{
+    position:relative;
+    width:100%;
+    height:100%;
+  }
+  .gif-wrap img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:saturate(1.05);
+  }
+  .gif-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg, rgba(122,33,73,.15) 0%, rgba(122,33,73,0) 35%, rgba(58,22,38,.55) 100%);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:space-between;
+    padding:36px 20px;
+  }
+  .gif-title{
+    font-size:32px;
+    color:#fff;
+    text-shadow:0 2px 12px rgba(0,0,0,.35);
+    line-height:1.15;
+  }
+  .gif-cta{
+    background:rgba(255,255,255,.92);
+    color:var(--pink-700);
+    padding:12px 30px;
+    border-radius:30px;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:.3px;
+    animation:pulse-cta 1.6s ease-in-out infinite;
+  }
+
+  /* ---------- Screen 3 : balloons ---------- */
+  #screen-balloons{ justify-content:flex-start; padding-top:56px; }
+  .balloon-header h2{ font-size:26px; }
+  .balloon-header p{
+    color:#8a5468;
+    font-size:14px;
+    margin:6px 0 0;
+  }
+  .balloon-field{
+    position:relative;
+    width:100%;
+    flex:1;
+    margin-top:10px;
+  }
+  .balloon{
+    position:absolute;
+    width:78px;
+    height:96px;
+    cursor:pointer;
+    transform-origin:center bottom;
+    animation:float-bob 4.2s ease-in-out infinite;
+    touch-action:manipulation;
+  }
+  .balloon svg{ width:100%; height:100%; display:block; }
+  .balloon .string{
+    position:absolute;
+    left:50%;
+    top:96px;
+    width:1px;
+    height:60px;
+    background:rgba(122,33,73,.35);
+  }
+  .balloon.squeeze{ animation:none; }
+  .balloon.popped{ visibility:hidden; }
+
+  .burst-gif{
+    position:absolute;
+    width:150px;
+    height:150px;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    z-index:5;
+  }
+  .burst-gif img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+  }
+
+  .true-note{
+    position:absolute;
+    transform:translate(-50%,-50%) scale(.6);
+    background:#fff;
+    border:1px solid var(--pink-300);
+    color:var(--plum-800);
+    padding:10px 14px;
+    border-radius:14px;
+    font-size:12.5px;
+    font-weight:600;
+    line-height:1.35;
+    max-width:150px;
+    box-shadow:0 8px 18px rgba(122,33,73,.18);
+    opacity:0;
+    transition:opacity .35s ease, transform .35s ease;
+    z-index:4;
+  }
+  .true-note.show{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
+  }
+
+  .balloon-progress{
+    margin-top:10px;
+    font-size:13px;
+    color:var(--pink-700);
+    font-weight:600;
+    letter-spacing:.3px;
+  }
+
+  /* ---------- Screen 4 : collage ---------- */
+  #screen-collage{
+    padding:22px 18px;
+    justify-content:flex-start;
+    overflow-y:auto;
+  }
+  .collage-card{
+    width:100%;
+    background:
+      radial-gradient(circle at 8% 10%, rgba(255,255,255,.6), transparent 30%),
+      linear-gradient(160deg,#fbe4ea,#fff0f3 55%,#fbe4ea);
+    border:1px solid #f3c9d6;
+    border-radius:18px;
+    padding:22px 18px 26px;
+    box-shadow:0 12px 30px rgba(122,33,73,.15);
+  }
+  .collage-title{
+    font-size:30px;
+    letter-spacing:.5px;
+    line-height:1.1;
+  }
+  .collage-title span{ display:block; font-size:22px; margin-top:2px; }
+
+  .cal-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin:18px 0 6px;
+    font-size:13px;
+    font-weight:700;
+    color:var(--pink-700);
+    letter-spacing:.5px;
+  }
+  .cal-grid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:4px;
+    font-size:11px;
+    color:#a56b80;
+  }
+  .cal-grid .dow{ font-weight:700; padding-bottom:4px; }
+  .cal-grid .day{
+    padding:5px 0;
+    border-radius:8px;
+  }
+  .cal-grid .day.today{
+    background:var(--pink-700);
+    color:#fff;
+    font-weight:700;
+  }
+
+  .wish-text{
+    margin-top:18px;
+    font-size:13.5px;
+    line-height:1.65;
+    color:#6b3348;
+    text-align:left;
+  }
+
+  .photo-row{
+    display:flex;
+    gap:12px;
+    margin-top:18px;
+  }
+  .photo-frame{
+    flex:1;
+    background:#fff;
+    padding:8px 8px 20px;
+    border-radius:4px;
+    box-shadow:0 8px 18px rgba(122,33,73,.18);
+    transform:rotate(-2deg);
+  }
+  .photo-frame:nth-child(2){ transform:rotate(2deg); }
+  .photo-frame .pic{
+    width:100%;
+    aspect-ratio:1/1;
+    border-radius:2px;
+    overflow:hidden;
+  }
+  .photo-frame .cap{
+    display:block;
+    text-align:center;
+    font-size:11px;
+    color:#a56b80;
+    margin-top:8px;
+  }
+
+  .signoff{
+    margin-top:20px;
+    font-size:20px;
+    color:var(--pink-700);
+  }
+
+  /* ---------- animations ---------- */
+  @keyframes float-slow{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-14px); }
+  }
+  @keyframes float-bob{
+    0%,100%{ transform:translateY(0) rotate(-1deg); }
+    50%{ transform:translateY(-10px) rotate(1deg); }
+  }
+  @keyframes pulse-cta{
+    0%,100%{ transform:scale(1); }
+    50%{ transform:scale(1.05); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- SCREEN 1: name -->
+  <section class="screen active" id="screen-name">
+    <div class="kicker">a little something for you</div>
+    <h2>What's your name?</h2>
+    <p class="sub">Type it in so this can be properly, personally yours.</p>
+    <input id="nameInput" type="text" placeholder="Your name" maxlength="20" autocomplete="off" />
+    <button class="primary-btn" id="nameContinue" disabled>Continue</button>
+  </section>
+
+  <!-- SCREEN 2: intro gif -->
+  <section class="screen" id="screen-gif">
+    <div class="gif-wrap">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXJka24xN3pkM3Npa3Q1M3o4Z3VkbW14ank3dGhhdWJ4cGNkMjNjZSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/RkX4y5zd9UAzY0wOU6/giphy.gif" alt="birthday celebration" />
+      <div class="gif-overlay">
+        <div class="gif-title script-font" id="gifTitle">Happy Birthday!</div>
+        <div class="gif-cta" id="gifContinue">Tap to open your surprise →</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 3: balloons -->
+  <section class="screen" id="screen-balloons">
+    <div class="balloon-header">
+      <h2>Pop every balloon 🎈</h2>
+      <p>Each one holds something true about you</p>
+    </div>
+    <div class="balloon-field" id="balloonField"></div>
+    <div class="balloon-progress" id="balloonProgress">0 / 5 popped</div>
+    <button class="primary-btn" id="balloonsContinue" style="display:none;">Continue</button>
+  </section>
+
+  <!-- SCREEN 4: collage -->
+  <section class="screen" id="screen-collage">
+    <div class="collage-card">
+      <div class="collage-title script-font">Happy Birthday<span id="collageName">Friend</span></div>
+
+      <div class="cal-row">
+        <span id="calMonth">August</span><span id="calYear">2026</span>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+
+      <p class="wish-text" id="wishText"></p>
+
+      <div class="photo-row">
+        <div class="photo-frame">
+          <div class="pic">
+            <svg viewBox="0 0 100 100" width="100%" height="100%">
+              <rect width="100" height="100" fill="#fdf1f5"/>
+              <path d="M20 92 L35 55 L65 55 L80 92 Z" fill="#f6d9e2"/>
+              <g fill="#e78aab" stroke="#d9648f" stroke-width="0.6">
+                <circle cx="35" cy="45" r="9"/>
+                <circle cx="50" cy="38" r="10"/>
+                <circle cx="65" cy="45" r="9"/>
+                <circle cx="42" cy="52" r="8"/>
+                <circle cx="58" cy="52" r="8"/>
+              </g>
+              <g stroke="#7a9c6b" stroke-width="1.4" fill="none">
+                <path d="M50 55 L46 30"/>
+                <path d="M50 55 L58 28"/>
+              </g>
+            </svg>
+          </div>
+          <span class="cap">for you</span>
+        </div>
+        <div class="photo-frame">
+          <div class="pic">
+            <svg viewBox="0 0 100 100" width="100%" height="100%">
+              <rect width="100" height="100" fill="#fdf1f5"/>
+              <path d="M22 92 L36 50 L64 50 L78 92 Z" fill="#f9e4ea"/>
+              <g fill="#d64d6a" stroke="#b8324e" stroke-width="0.6">
+                <circle cx="38" cy="42" r="10"/>
+                <circle cx="52" cy="34" r="11"/>
+                <circle cx="66" cy="42" r="10"/>
+                <circle cx="45" cy="50" r="9"/>
+                <circle cx="59" cy="50" r="9"/>
+                <circle cx="52" cy="55" r="9"/>
+              </g>
+              <g stroke="#7a9c6b" stroke-width="1.4" fill="none">
+                <path d="M52 55 L48 30"/>
+                <path d="M52 55 L57 28"/>
+              </g>
+            </svg>
+          </div>
+          <span class="cap">so much love</span>
+        </div>
+      </div>
+
+      <div class="signoff script-font">Make a wish ✨</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  const screens = {
+    name: document.getElementById('screen-name'),
+    gif: document.getElementById('screen-gif'),
+    balloons: document.getElementById('screen-balloons'),
+    collage: document.getElementById('screen-collage'),
+  };
+  function show(key){
+    Object.values(screens).forEach(s=>s.classList.remove('active'));
+    screens[key].classList.add('active');
+  }
+
+  let userName = 'Friend';
+
+  // ---- Screen 1: name ----
+  const nameInput = document.getElementById('nameInput');
+  const nameContinue = document.getElementById('nameContinue');
+  function syncNameBtn(){
+    nameContinue.disabled = nameInput.value.trim().length === 0;
+  }
+  ['input','keyup','change','paste'].forEach(evt=>{
+    nameInput.addEventListener(evt, ()=> setTimeout(syncNameBtn, 0));
+  });
+  syncNameBtn();
+  nameInput.addEventListener('keydown', e=>{
+    if(e.key==='Enter' && !nameContinue.disabled) nameContinue.click();
+  });
+  nameContinue.addEventListener('click', ()=>{
+    userName = nameInput.value.trim() || 'Friend';
+    document.getElementById('gifTitle').textContent = 'Happy Birthday, ' + userName + '!';
+    document.getElementById('collageName').textContent = userName;
+    document.getElementById('wishText').textContent =
+      'Wishing you a birthday filled with happiness, love, laughter and beautiful memories, ' +
+      userName + '. May this new year bring you success, peace, good health and endless reasons to smile. ' +
+      'Keep shining, keep growing, and keep believing in yourself.';
+    show('gif');
+  });
+
+  // ---- Screen 2: gif ----
+  document.getElementById('gifContinue').addEventListener('click', ()=>{
+    show('balloons');
+  });
+
+  // ---- Screen 3: balloons ----
+  const burstGifs = [
+    'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2FkY2MzZXE0bG92dm8xb3ZhaWF3Y2lsb3M4M3cwMW84eWJienBoNCZlcD12MV9naWZzX3RyZW5kaW5nJmN0PWc/OuQmhmAAdJFLi/giphy.gif',
+    'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExem9zeHhsajZlZnNhdjVqcGxzeWdoaXN3NzNoaGhvZWp1ZzAzMzc3dSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/YTbZzCkRQCEJa/giphy.gif',
+    'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3bGdyM3lkbWk5bWJybnF0OWF2dzN2YmhpamNtbjN3ZjN6cWNzdnRycCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/xWXLEKVutp1UPqG6tJ/giphy.gif',
+    'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3NzdsZnM2dDh5bTQ2dXlteGh6YTk1d28yYzh2OTE1aTNkc2hnYTdxNCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/UqlLJ4YY8QrPJaHDAj/giphy.gif'
+  ];
+
+  const balloonColors = [
+    {top:'#f2a23c', mid:'#e88a1f'},
+    {top:'#ef5f7f', mid:'#d9375d'},
+    {top:'#3bc99a', mid:'#22a97e'},
+    {top:'#6f7ee0', mid:'#4c58c9'},
+    {top:'#f07a2e', mid:'#d95f14'}
+  ];
+
+  const messages = [
+    'Your kindness makes ordinary days feel a little brighter.',
+    'You handle hard things with more grace than you give yourself credit for.',
+    'The people who love you are lucky to have you.',
+    'You\\'re allowed to want good things — and to go get them.',
+    'This is your year. Really.'
+  ];
+
+  const positions = [
+    {left:'10%', top:'6%'},
+    {left:'58%', top:'0%'},
+    {left:'30%', top:'26%'},
+    {left:'66%', top:'32%'},
+    {left:'6%', top:'50%'}
+  ];
+
+  const field = document.getElementById('balloonField');
+  const progressEl = document.getElementById('balloonProgress');
+  const balloonsContinueBtn = document.getElementById('balloonsContinue');
+  let poppedCount = 0;
+
+  function balloonSVG(top, mid){
+    return `<svg viewBox="0 0 78 96" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="g${top.slice(1)}" cx="35%" cy="30%" r="75%">
+          <stop offset="0%" stop-color="${top}"/>
+          <stop offset="100%" stop-color="${mid}"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="39" cy="42" rx="34" ry="40" fill="url(#g${top.slice(1)})"/>
+      <ellipse cx="28" cy="26" rx="8" ry="12" fill="rgba(255,255,255,0.35)"/>
+      <path d="M33 80 L39 88 L45 80 Z" fill="${mid}"/>
+    </svg>`;
+  }
+
+  positions.forEach((pos, i)=>{
+    const c = balloonColors[i];
+    const el = document.createElement('div');
+    el.className = 'balloon';
+    el.style.left = pos.left;
+    el.style.top = pos.top;
+    el.style.animationDelay = (i*0.4)+'s';
+    el.innerHTML = balloonSVG(c.top, c.mid) + '<div class="string"></div>';
+    field.appendChild(el);
+
+    let pressTimer = null;
+
+    function squeezeStart(){
+      el.classList.add('squeeze');
+      el.style.transform = 'scale(0.82,1.12)';
+    }
+    function squeezeGrow(){
+      el.style.transform = 'scale(1.18,0.9)';
+    }
+    function squeezeEnd(){
+      el.style.transform = '';
+      el.classList.remove('squeeze');
+    }
+
+    el.addEventListener('pointerdown', (e)=>{
+      e.preventDefault();
+      squeezeStart();
+      pressTimer = setTimeout(squeezeGrow, 120);
+    });
+    el.addEventListener('pointerup', ()=>{
+      clearTimeout(pressTimer);
+      pop(el, pos, i);
+    });
+    el.addEventListener('pointerleave', ()=>{
+      clearTimeout(pressTimer);
+      squeezeEnd();
+    });
+  });
+
+  function pop(el, pos, i){
+    if(el.classList.contains('popped')) return;
+    el.classList.add('popped');
+    poppedCount++;
+
+    const burst = document.createElement('div');
+    burst.className = 'burst-gif';
+    burst.style.left = pos.left;
+    burst.style.top = pos.top;
+    const gifUrl = burstGifs[i % burstGifs.length];
+    burst.innerHTML = `<img src="${gifUrl}" alt="balloon pop"/>`;
+    field.appendChild(burst);
+
+    const note = document.createElement('div');
+    note.className = 'true-note';
+    note.style.left = pos.left;
+    note.style.top = 'calc(' + pos.top + ' + 40px)';
+    note.textContent = messages[i % messages.length];
+    field.appendChild(note);
+
+    requestAnimationFrame(()=> note.classList.add('show'));
+
+    setTimeout(()=>{ burst.remove(); }, 900);
+
+    progressEl.textContent = poppedCount + ' / 5 popped';
+    if(poppedCount >= positions.length){
+      setTimeout(()=>{ balloonsContinueBtn.style.display = 'inline-block'; }, 700);
+    }
+  }
+
+  balloonsContinueBtn.addEventListener('click', ()=>{
+    show('collage');
+  });
+
+  // ---- Screen 4: calendar ----
+  function buildCalendar(){
+    const grid = document.getElementById('calGrid');
+    const dows = ['S','M','T','W','T','F','S'];
+    dows.forEach(d=>{
+      const el = document.createElement('div');
+      el.className = 'dow';
+      el.textContent = d;
+      grid.appendChild(el);
+    });
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+    document.getElementById('calMonth').textContent =
+      today.toLocaleString('en-US', {month:'long'});
+    document.getElementById('calYear').textContent = year;
+
+    const firstDow = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month+1, 0).getDate();
+    for(let i=0;i<firstDow;i++){
+      const el = document.createElement('div');
+      el.className = 'day';
+      grid.appendChild(el);
+    }
+    for(let d=1; d<=daysInMonth; d++){
+      const el = document.createElement('div');
+      el.className = 'day' + (d===today.getDate() ? ' today' : '');
+      el.textContent = d;
+      grid.appendChild(el);
+    }
+  }
+  buildCalendar();
+})();
+</script>
+
+</body>
+</html>
