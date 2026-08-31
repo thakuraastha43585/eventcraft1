@@ -6,22 +6,11 @@
 <title>Happy Birthday</title>
 <style>
   :root{
-    --pink-50:#fff2f6;
-    --pink-100:#ffe1ea;
-    --pink-300:#ffaecb;
-    --pink-500:#ff6fa5;
-    --pink-700:#d94577;
-    --plum-800:#7a2149;
-    --cream:#fff8f2;
-    --gold:#e8b34f;
-    --ink:#3a1626;
+    --pink-50:#fff2f6; --pink-100:#ffe1ea; --pink-300:#ffaecb; --pink-500:#ff6fa5;
+    --pink-700:#d94577; --plum-800:#7a2149; --cream:#fff8f2; --gold:#e8b34f; --ink:#3a1626;
   }
   *{box-sizing:border-box;}
-  html,body{
-    margin:0; min-height:100%;
-    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-    background:var(--pink-50); color:var(--ink);
-  }
+  html,body{ margin:0; min-height:100%; font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif; background:var(--pink-50); color:var(--ink); }
   body{ display:flex; align-items:center; justify-content:center; min-height:100vh; }
   #app{
     width:100%; max-width:420px; height:100vh; max-height:900px; position:relative;
@@ -34,7 +23,6 @@
     transform:translateY(12px); transition:opacity .5s ease, transform .5s ease; z-index:1;
   }
   .screen.active{ opacity:1; visibility:visible; pointer-events:auto; transform:translateY(0); z-index:2; }
-  .centered{ align-items:center; justify-content:center; text-align:center; }
 
   h1,h2,h3{ font-family:'Brush Script MT','Segoe Script',cursive; margin:0; color:var(--plum-800); }
   .script-font{ font-family:'Brush Script MT','Segoe Script',cursive; }
@@ -48,45 +36,46 @@
   .primary-btn:hover{ transform:translateY(-2px); box-shadow:0 12px 26px rgba(217,69,119,.45); }
   .primary-btn:disabled{ background:#e7c7d4; box-shadow:none; cursor:not-allowed; }
 
-  /* ---------- Screen 1: name + birthday date (half gif / half form) ---------- */
-  #screen-name{ padding:0; }
-  .name-gif-half{ height:44%; width:100%; overflow:hidden; background:#f4c7d6; flex-shrink:0; }
-  .name-gif-half img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .name-form-half{
-    flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
-    padding:20px 26px; text-align:center;
-  }
+  /* ---------- Screen: form (name + birthday date) — no gif ---------- */
+  #screen-name{ align-items:center; justify-content:center; text-align:center; padding:32px 26px; }
   #screen-name .kicker{ font-size:12px; letter-spacing:1.5px; color:var(--pink-700); font-weight:600; text-transform:uppercase; }
-  #screen-name h2{ font-size:28px; margin:8px 0 4px; }
-  #screen-name p.sub{ color:#8a5468; font-size:13px; max-width:280px; line-height:1.45; margin:0; }
-  .field-label{ font-size:11.5px; color:var(--pink-700); font-weight:700; letter-spacing:.4px; margin-top:16px; align-self:center; }
+  #screen-name h2{ font-size:30px; margin:10px 0 6px; }
+  #screen-name p.sub{ color:#8a5468; font-size:13.5px; max-width:280px; line-height:1.5; margin:0; }
+  .field-label{ font-size:11.5px; color:var(--pink-700); font-weight:700; letter-spacing:.4px; margin-top:18px; }
   #nameInput, #bdayInput{
-    margin-top:8px; width:100%; max-width:240px; padding:11px 16px; border-radius:24px;
+    margin-top:8px; width:100%; max-width:250px; padding:12px 16px; border-radius:24px;
     border:2px solid var(--pink-300); background:#fff; font-size:15px; text-align:center;
     color:var(--plum-800); outline:none; transition:border-color .2s ease;
   }
   #nameInput:focus, #bdayInput:focus{ border-color:var(--pink-700); }
 
-  /* ---------- Screen 2: intro gif, half gif / half message ---------- */
-  #screen-gif{ padding:0; }
-  .gif-half{ height:50%; width:100%; overflow:hidden; background:#f4c7d6; flex-shrink:0; }
-  .gif-half img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .gif-msg-half{
+  /* ---------- Screen: FIRST PAGE — gif + happy birthday + yes/no cheese game ---------- */
+  #screen-first{ padding:0; }
+  .first-gif-half{ height:46%; width:100%; overflow:hidden; background:#f4c7d6; flex-shrink:0; }
+  .first-gif-half img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .first-lower{
     flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
-    padding:18px 24px; text-align:center; background:linear-gradient(180deg,#fff0f4,#ffe1ea);
+    padding:14px 22px; text-align:center; background:linear-gradient(180deg,#fff0f4,#ffe1ea);
+    position:relative; overflow:hidden;
   }
-  .gif-title{ font-size:30px; color:var(--plum-800); line-height:1.15; }
-  .gif-cta{
-    margin-top:16px; background:var(--pink-700); color:#fff; padding:11px 28px; border-radius:30px;
-    font-weight:700; font-size:14.5px; letter-spacing:.3px; animation:pulse-cta 1.6s ease-in-out infinite;
+  .first-title{ font-size:28px; color:var(--plum-800); line-height:1.15; }
+  .cheese-sub{ font-size:13px; color:#8a5468; margin-top:6px; }
+  .cheese-game{ position:relative; width:100%; max-width:280px; height:120px; margin-top:14px; }
+  .yes-btn, .no-btn{
+    position:absolute; top:38px; padding:11px 24px; border-radius:30px; font-weight:700; font-size:14.5px;
   }
+  .yes-btn{ left:20px; background:var(--pink-700); color:#fff; box-shadow:0 8px 18px rgba(217,69,119,.35); transition:transform .2s ease; z-index:5; }
+  .no-btn{ left:160px; background:#fff; color:var(--pink-700); border:2px solid var(--pink-300); transition:left .18s ease, top .18s ease; z-index:6; }
+  .cheese-hint{ font-size:11px; color:#c58ba0; margin-top:6px; font-style:italic; }
+  .surprise-note{ font-size:13px; color:var(--pink-700); font-weight:600; margin-top:10px; display:none; }
+  .surprise-note.show{ display:block; }
 
-  /* ---------- Screen 3: balloons, 70/30 split ---------- */
+  /* ---------- Screen: balloons — full field, polaroid burst reveal in place ---------- */
   #screen-balloons{ padding:0; }
   .balloon-header{ padding:16px 20px 4px; text-align:center; flex-shrink:0; }
   .balloon-header h2{ font-size:22px; }
   .balloon-header p{ color:#8a5468; font-size:13px; margin:4px 0 0; }
-  .balloon-field{ position:relative; width:100%; flex:7; min-height:0; }
+  .balloon-field{ position:relative; width:100%; flex:1; min-height:0; }
   .balloon{
     position:absolute; width:70px; height:86px; cursor:pointer; transform-origin:center bottom;
     animation:float-bob 4.2s ease-in-out infinite; touch-action:manipulation; -webkit-tap-highlight-color:transparent;
@@ -94,25 +83,24 @@
   .balloon svg{ width:100%; height:100%; display:block; pointer-events:none; }
   .balloon .string{ position:absolute; left:50%; top:86px; width:1px; height:44px; background:rgba(122,33,73,.35); pointer-events:none; }
   .balloon.popped{ visibility:hidden; }
-  .burst-gif{ position:absolute; width:130px; height:130px; transform:translate(-50%,-50%); pointer-events:none; z-index:5; }
-  .burst-gif img{ width:100%; height:100%; object-fit:contain; }
 
-  .blessing-shelf{
-    flex:3; min-height:0; background:#fff4f7; border-top:1px solid #f3c9d6;
-    padding:10px 14px; display:flex; flex-direction:column;
+  .polaroid-reveal{
+    position:absolute; width:150px; background:#fff; padding:8px 8px 30px; border-radius:4px;
+    box-shadow:0 12px 26px rgba(122,33,73,.3); transform:translate(-50%,-50%) scale(0.2); opacity:0;
+    transition:transform .45s cubic-bezier(.2,1.4,.4,1), opacity .3s ease; z-index:8; pointer-events:none;
   }
-  .shelf-label{ font-size:11px; font-weight:700; color:var(--pink-700); letter-spacing:.4px; text-transform:uppercase; margin-bottom:6px; flex-shrink:0; }
-  .shelf-scroll{ flex:1; display:flex; gap:10px; overflow-x:auto; overflow-y:hidden; padding:2px 2px 8px; }
-  .polaroid{
-    flex:0 0 auto; width:112px; background:#fff; padding:7px 7px 10px; border-radius:3px;
-    box-shadow:0 6px 14px rgba(122,33,73,.2); transition:transform .3s ease, opacity .3s ease;
+  .polaroid-reveal.open{ transform:translate(-50%,-50%) scale(1); opacity:1; }
+  .polaroid-reveal .pgif{ width:100%; aspect-ratio:1/1; overflow:hidden; border-radius:2px; background:#f6d9e2; }
+  .polaroid-reveal .pgif img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .polaroid-reveal .cap{
+    position:absolute; left:8px; right:8px; bottom:8px; text-align:center;
+    font-family:'Brush Script MT','Segoe Script',cursive; font-size:12.5px; color:var(--plum-800); line-height:1.25;
   }
-  .polaroid .swatch{ width:100%; height:64px; border-radius:2px; }
-  .polaroid p{ margin:6px 0 0; font-size:9.5px; line-height:1.3; color:var(--plum-800); font-weight:600; }
-  .balloon-progress{ font-size:11px; color:var(--pink-700); font-weight:600; margin-top:4px; flex-shrink:0; }
-  #balloonsContinue{ margin:8px auto 0; display:none; flex-shrink:0; }
+  .balloon-footer{ flex-shrink:0; padding:8px 20px 16px; text-align:center; }
+  .balloon-progress{ font-size:12px; color:var(--pink-700); font-weight:600; }
+  #balloonsContinue{ display:none; }
 
-  /* ---------- Screen 4: photo upload ---------- */
+  /* ---------- Screen: photo upload ---------- */
   #screen-photos{ padding:26px 24px; align-items:center; justify-content:center; text-align:center; }
   #screen-photos .kicker{ font-size:12px; letter-spacing:1.5px; color:var(--pink-700); font-weight:600; text-transform:uppercase; }
   #screen-photos h2{ font-size:24px; margin:8px 0 4px; }
@@ -126,7 +114,7 @@
   .photo-tile.add-tile.hidden{ display:none; }
   .photo-count{ margin-top:14px; font-size:12.5px; color:var(--pink-700); font-weight:600; }
 
-  /* ---------- Screen 5: collage ---------- */
+  /* ---------- Screen: collage ---------- */
   #screen-collage{ padding:20px 16px; align-items:center; overflow-y:auto; display:block; }
   .collage-card{
     width:100%; position:relative;
@@ -135,45 +123,33 @@
     border:1px solid #f3c9d6; border-radius:18px; padding:22px 16px 24px;
     box-shadow:0 12px 30px rgba(122,33,73,.15); text-align:center;
   }
-  .bouquet-corner{ position:absolute; width:50px; height:50px; opacity:.9; }
-  .bouquet-corner.tl{ top:8px; left:8px; }
+  .bouquet-corner{ position:absolute; width:50px; height:50px; opacity:.9; top:8px; left:8px; }
   .collage-title{ font-size:28px; line-height:1.1; }
   .collage-title span{ display:block; font-size:20px; margin-top:2px; }
-
   .affirmation-note{
-    display:inline-block; font-family:'Brush Script MT','Segoe Script',cursive;
-    font-size:16px; color:var(--pink-700); background:#fff; padding:6px 14px; border-radius:10px;
-    box-shadow:0 4px 10px rgba(122,33,73,.15); margin-top:10px; transform:rotate(-2deg);
+    display:inline-block; font-family:'Brush Script MT','Segoe Script',cursive; font-size:16px; color:var(--pink-700);
+    background:#fff; padding:6px 14px; border-radius:10px; box-shadow:0 4px 10px rgba(122,33,73,.15);
+    margin-top:10px; transform:rotate(-2deg);
   }
   .affirmation-note.alt{ transform:rotate(2deg); color:var(--plum-800); margin-left:8px; }
-
   .cal-row{ display:flex; justify-content:space-between; align-items:baseline; margin:16px 0 6px; font-size:12.5px; font-weight:700; color:var(--pink-700); letter-spacing:.5px; }
   .cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:4px; font-size:10.5px; color:#a56b80; }
   .cal-grid .dow{ font-weight:700; padding-bottom:4px; }
   .cal-grid .day{ padding:5px 0; border-radius:8px; }
   .cal-grid .day.today{ background:var(--pink-700); color:#fff; font-weight:700; }
-
   .wish-text{ margin-top:16px; font-size:13px; line-height:1.6; color:#6b3348; text-align:left; }
-
-  .deco-space{
-    margin-top:16px; border:2px dashed var(--pink-300); border-radius:14px; padding:16px 10px;
-    font-size:11.5px; color:#b98198; background:rgba(255,255,255,.4); line-height:1.5;
-  }
-
+  .gif-amid-row{ display:flex; gap:10px; justify-content:center; margin-top:16px; }
+  .gif-amid{ width:90px; height:90px; border-radius:12px; overflow:hidden; box-shadow:0 8px 16px rgba(122,33,73,.2); border:2px solid #fff; }
+  .gif-amid img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .deco-space{ margin-top:16px; border:2px dashed var(--pink-300); border-radius:14px; padding:16px 10px; font-size:11.5px; color:#b98198; background:rgba(255,255,255,.4); line-height:1.5; }
   .scrap-grid{ display:flex; flex-wrap:wrap; justify-content:center; gap:12px 8px; margin-top:16px; }
   .scrap-photo{ background:#fff; padding:6px 6px 14px; border-radius:4px; box-shadow:0 8px 18px rgba(122,33,73,.18); width:42%; }
   .scrap-photo .pic{ width:100%; aspect-ratio:1/1; overflow:hidden; border-radius:2px; }
   .scrap-photo .pic img{ width:100%; height:100%; object-fit:cover; display:block; }
-
-  .sticker-gif{ position:absolute; width:52px; height:52px; border-radius:10px; overflow:hidden; box-shadow:0 6px 14px rgba(122,33,73,.25); border:2px solid #fff; }
-  .sticker-gif img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .sticker-gif.s1{ top:110px; right:-8px; transform:rotate(9deg); }
-  .sticker-gif.s2{ bottom:100px; left:-8px; transform:rotate(-8deg); }
-
   .signoff{ margin-top:18px; font-size:19px; color:var(--pink-700); }
   #collageContinue{ margin-top:16px; }
 
-  /* ---------- Screen 6: blessings ---------- */
+  /* ---------- Screen: blessings (final, after everything) ---------- */
   #screen-blessings{ padding:0; }
   .bless-gif-half{ height:42%; width:100%; overflow:hidden; background:#f4c7d6; flex-shrink:0; }
   .bless-gif-half img{ width:100%; height:100%; object-fit:cover; display:block; }
@@ -183,7 +159,6 @@
   .flower-row{ display:flex; gap:22px; justify-content:center; }
   .flower-btn{ font-size:34px; background:none; padding:4px; transition:transform .2s ease; }
   .flower-btn:hover{ transform:scale(1.15) rotate(-6deg); }
-  .flower-btn.opened{ transform:scale(1.1); }
   .bless-card{
     width:100%; max-width:280px; margin-top:10px; background:#fff; border:1px solid var(--pink-300);
     border-radius:14px; padding:12px 16px; font-size:13px; color:var(--plum-800); line-height:1.5;
@@ -193,7 +168,6 @@
   .closing-note{ margin-top:16px; font-family:'Brush Script MT','Segoe Script',cursive; font-size:20px; color:var(--pink-700); }
 
   @keyframes float-bob{ 0%,100%{ transform:translateY(0) rotate(-1deg);} 50%{ transform:translateY(-10px) rotate(1deg);} }
-  @keyframes pulse-cta{ 0%,100%{ transform:scale(1);} 50%{ transform:scale(1.05);} }
   @media (prefers-reduced-motion: reduce){ *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; } }
 </style>
 </head>
@@ -201,50 +175,49 @@
 
 <div id="app">
 
-  <!-- SCREEN 1: name + birthday date -->
+  <!-- SCREEN: form (name + birthday date), no gif here -->
   <section class="screen active" id="screen-name">
-    <div class="name-gif-half">
+    <div class="kicker">a little something for you</div>
+    <h2>Let's set this up</h2>
+    <p class="sub">Tell me who it's for and when their day is.</p>
+    <div class="field-label">Your name</div>
+    <input id="nameInput" type="text" placeholder="Your name" maxlength="20" autocomplete="off" />
+    <div class="field-label">Your birthday</div>
+    <input id="bdayInput" type="date" />
+    <button type="button" class="primary-btn" id="nameContinue" disabled>Continue</button>
+  </section>
+
+  <!-- SCREEN: FIRST PAGE — gif + happy birthday + yes/no cheese game -->
+  <section class="screen" id="screen-first">
+    <div class="first-gif-half">
       <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3eThpaHowdnRxN2c5bzBjMXo4d2VpYXdwNXk2OHhwYTZzaDl4dHZmYSZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/oZHLtSqQeW8JrpyRIr/giphy.gif" alt="celebration" />
     </div>
-    <div class="name-form-half">
-      <div class="kicker">a little something for you</div>
-      <h2>Let's set this up</h2>
-      <p class="sub">Tell me who it's for and when their day is.</p>
-      <div class="field-label">Your name</div>
-      <input id="nameInput" type="text" placeholder="Your name" maxlength="20" autocomplete="off" />
-      <div class="field-label">Your birthday</div>
-      <input id="bdayInput" type="date" />
-      <button type="button" class="primary-btn" id="nameContinue" disabled>Continue</button>
+    <div class="first-lower">
+      <div class="first-title script-font" id="firstTitle">Happy Birthday!</div>
+      <div class="cheese-sub">Ready to say cheese for your surprise?</div>
+      <div class="cheese-game" id="cheeseGame">
+        <button type="button" class="yes-btn" id="yesBtn">Yes</button>
+        <button type="button" class="no-btn" id="noBtn">No</button>
+      </div>
+      <div class="cheese-hint">(no isn't really on the table)</div>
+      <div class="surprise-note" id="surpriseNote">Wait for it... 🎉</div>
     </div>
   </section>
 
-  <!-- SCREEN 2: intro gif, half/half -->
-  <section class="screen" id="screen-gif">
-    <div class="gif-half">
-      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXJka24xN3pkM3Npa3Q1M3o4Z3VkbW14ank3dGhhdWJ4cGNkMjNjZSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/RkX4y5zd9UAzY0wOU6/giphy.gif" alt="birthday celebration" />
-    </div>
-    <div class="gif-msg-half">
-      <div class="gif-title script-font" id="gifTitle">Happy Birthday!</div>
-      <button type="button" class="gif-cta" id="gifContinue">Tap to open your surprise →</button>
-    </div>
-  </section>
-
-  <!-- SCREEN 3: balloons, 70/30 -->
+  <!-- SCREEN: balloons -->
   <section class="screen" id="screen-balloons">
     <div class="balloon-header">
       <h2>Pop every balloon 🎈</h2>
-      <p>Each one holds something true about you</p>
+      <p>Each one bursts into something true about you</p>
     </div>
     <div class="balloon-field" id="balloonField"></div>
-    <div class="blessing-shelf">
-      <div class="shelf-label">Blessings unlocked</div>
-      <div class="shelf-scroll" id="shelfScroll"></div>
+    <div class="balloon-footer">
       <div class="balloon-progress" id="balloonProgress">0 / 5 popped</div>
       <button type="button" class="primary-btn" id="balloonsContinue">Continue</button>
     </div>
   </section>
 
-  <!-- SCREEN 4: photo upload -->
+  <!-- SCREEN: photo upload -->
   <section class="screen" id="screen-photos">
     <div class="kicker">for the scrapbook</div>
     <h2>Add your photos</h2>
@@ -257,13 +230,10 @@
     <button type="button" class="primary-btn" id="photosContinue" disabled>Continue</button>
   </section>
 
-  <!-- SCREEN 5: collage -->
+  <!-- SCREEN: collage -->
   <section class="screen" id="screen-collage">
     <div class="collage-card">
-      <svg class="bouquet-corner tl" viewBox="0 0 60 60"><g fill="#e78aab" stroke="#d9648f" stroke-width="0.6"><circle cx="20" cy="26" r="9"/><circle cx="32" cy="18" r="9"/><circle cx="40" cy="28" r="8"/></g><g stroke="#7a9c6b" stroke-width="1.4" fill="none"><path d="M30 34 L26 50"/><path d="M30 34 L36 50"/></g></svg>
-
-      <div class="sticker-gif s1"><img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3eThpaHowdnRxN2c5bzBjMXo4d2VpYXdwNXk2OHhwYTZzaDl4dHZmYSZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/lyqiwkFISfNyWkZwGc/giphy.gif" alt="sticker"/></div>
-      <div class="sticker-gif s2"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXdnbWtncm5mM3R3N3lqdWR6MWZpbnBhZTc1aGJ3YXp5YmMwa3M5bCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/u2EG5bHYyTZhjmeWyJ/giphy.gif" alt="sticker"/></div>
+      <svg class="bouquet-corner" viewBox="0 0 60 60"><g fill="#e78aab" stroke="#d9648f" stroke-width="0.6"><circle cx="20" cy="26" r="9"/><circle cx="32" cy="18" r="9"/><circle cx="40" cy="28" r="8"/></g><g stroke="#7a9c6b" stroke-width="1.4" fill="none"><path d="M30 34 L26 50"/><path d="M30 34 L36 50"/></g></svg>
 
       <div class="collage-title script-font">Happy Birthday<span id="collageName">Friend</span></div>
 
@@ -277,16 +247,21 @@
 
       <p class="wish-text" id="wishText"></p>
 
+      <div class="gif-amid-row">
+        <div class="gif-amid"><img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3eThpaHowdnRxN2c5bzBjMXo4d2VpYXdwNXk2OHhwYTZzaDl4dHZmYSZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/lyqiwkFISfNyWkZwGc/giphy.gif" alt="celebration sticker"/></div>
+        <div class="gif-amid"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXdnbWtncm5mM3R3N3lqdWR6MWZpbnBhZTc1aGJ3YXp5YmMwa3M5bCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/u2EG5bHYyTZhjmeWyJ/giphy.gif" alt="celebration sticker"/></div>
+      </div>
+
       <div class="deco-space">✏️ leave this space for adding your own flowers, cartoons or stickers</div>
 
       <div class="scrap-grid" id="scrapGrid"></div>
 
       <div class="signoff script-font">Make a wish ✨</div>
-      <button type="button" class="primary-btn" id="collageContinue">See your blessings →</button>
+      <button type="button" class="primary-btn" id="collageContinue">Continue →</button>
     </div>
   </section>
 
-  <!-- SCREEN 6: blessings -->
+  <!-- SCREEN: blessings — final, after everything -->
   <section class="screen" id="screen-blessings">
     <div class="bless-gif-half">
       <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc3JrN3RncTVwODhrdThqbnUxdDNmdmdsMXgyazk0ejJveHBiMTlrMSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/yUThmGwfT1hrORu84T/giphy.gif" alt="celebration" />
@@ -312,7 +287,7 @@
 (function(){
   const screens = {
     name: document.getElementById('screen-name'),
-    gif: document.getElementById('screen-gif'),
+    first: document.getElementById('screen-first'),
     balloons: document.getElementById('screen-balloons'),
     photos: document.getElementById('screen-photos'),
     collage: document.getElementById('screen-collage'),
@@ -325,12 +300,12 @@
   }
 
   let userName = 'Friend';
-  let bdayDate = null; // Date object or null
+  let bdayDate = null;
   const uploadedPhotos = [];
   const MAX_PHOTOS = 5;
   const MIN_PHOTOS = 3;
 
-  // ---------------- Screen 1: name + birthday date ----------------
+  // ---------------- Form: name + birthday date ----------------
   const nameInput = document.getElementById('nameInput');
   const bdayInput = document.getElementById('bdayInput');
   const nameContinue = document.getElementById('nameContinue');
@@ -347,20 +322,50 @@
       const parts = bdayInput.value.split('-').map(Number);
       bdayDate = new Date(parts[0], parts[1]-1, parts[2]);
     }
-    document.getElementById('gifTitle').textContent = 'Happy Birthday, ' + userName + '!';
+    document.getElementById('firstTitle').textContent = 'Happy Birthday, ' + userName + '!';
     document.getElementById('collageName').textContent = userName;
     document.getElementById('closingNote').textContent = 'Happy Birthday, ' + userName + ' \ud83d\udc97';
     document.getElementById('wishText').textContent =
       'Wishing you a birthday filled with happiness, love, laughter and beautiful memories, ' +
       userName + '. May this new year bring you success, peace, good health and endless reasons to smile. ' +
       'Keep shining, keep growing, and keep believing in yourself.';
-    show('gif');
+    show('first');
   });
 
-  // ---------------- Screen 2: gif ----------------
-  document.getElementById('gifContinue').addEventListener('click', ()=>{ show('balloons'); });
+  // ---------------- First page: yes/no cheese game ----------------
+  const cheeseGame = document.getElementById('cheeseGame');
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn = document.getElementById('noBtn');
+  const surpriseNote = document.getElementById('surpriseNote');
+  let dodgeCount = 0;
 
-  // ---------------- Screen 3: balloons ----------------
+  function dodgeNo(){
+    const gameW = cheeseGame.clientWidth;
+    const gameH = cheeseGame.clientHeight;
+    const btnW = noBtn.offsetWidth || 90;
+    const btnH = noBtn.offsetHeight || 42;
+    const maxLeft = Math.max(0, gameW - btnW);
+    const maxTop = Math.max(0, gameH - btnH);
+    const newLeft = Math.random() * maxLeft;
+    const newTop = Math.random() * maxTop;
+    noBtn.style.left = newLeft + 'px';
+    noBtn.style.top = newTop + 'px';
+    dodgeCount++;
+    const scale = Math.min(1 + dodgeCount * 0.14, 2.2);
+    yesBtn.style.transform = 'scale(' + scale + ')';
+  }
+  ['pointerenter','touchstart','mouseover'].forEach(evt=>{
+    noBtn.addEventListener(evt, (e)=>{ e.preventDefault && e.preventDefault(); dodgeNo(); });
+  });
+  noBtn.addEventListener('click', (e)=>{ e.preventDefault(); dodgeNo(); });
+
+  yesBtn.addEventListener('click', ()=>{
+    surpriseNote.classList.add('show');
+    yesBtn.disabled = true;
+    setTimeout(()=>{ show('balloons'); }, 900);
+  });
+
+  // ---------------- Balloons: pop -> full polaroid reveal in place ----------------
   const burstGifs = [
     'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2FkY2MzZXE0bG92dm8xb3ZhaWF3Y2lsb3M4M3cwMW84eWJienBoNCZlcD12MV9naWZzX3RyZW5kaW5nJmN0PWc/OuQmhmAAdJFLi/giphy.gif',
     'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExem9zeHhsajZlZnNhdjVqcGxzeWdoaXN3NzNoaGhvZWp1ZzAzMzc3dSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/YTbZzCkRQCEJa/giphy.gif',
@@ -379,14 +384,13 @@
     "This is your year. Really."
   ];
   const positions = [
-    {left:'8%', top:'4%'}, {left:'56%', top:'2%'}, {left:'28%', top:'34%'},
-    {left:'64%', top:'42%'}, {left:'6%', top:'62%'}
+    {left:'20%', top:'18%'}, {left:'70%', top:'16%'}, {left:'45%', top:'42%'},
+    {left:'78%', top:'62%'}, {left:'16%', top:'64%'}
   ];
 
   const field = document.getElementById('balloonField');
   const progressEl = document.getElementById('balloonProgress');
   const balloonsContinueBtn = document.getElementById('balloonsContinue');
-  const shelfScroll = document.getElementById('shelfScroll');
   let poppedCount = 0;
 
   function balloonSVG(top, mid, uid){
@@ -410,49 +414,37 @@
     field.appendChild(el);
 
     let pressTimer = null;
-    function squeezeStart(){ el.style.transform = 'scale(0.82,1.12)'; }
-    function squeezeGrow(){ el.style.transform = 'scale(1.18,0.9)'; }
-    function squeezeEnd(){ el.style.transform = ''; }
-
-    el.addEventListener('pointerdown', ()=>{ squeezeStart(); pressTimer = setTimeout(squeezeGrow, 120); });
+    el.addEventListener('pointerdown', ()=>{ el.style.transform = 'scale(0.82,1.12)'; pressTimer = setTimeout(()=>{ el.style.transform = 'scale(1.18,0.9)'; }, 120); });
     el.addEventListener('pointerup', ()=>{ clearTimeout(pressTimer); });
-    el.addEventListener('pointerleave', ()=>{ clearTimeout(pressTimer); squeezeEnd(); });
-    el.addEventListener('pointercancel', ()=>{ clearTimeout(pressTimer); squeezeEnd(); });
+    el.addEventListener('pointerleave', ()=>{ clearTimeout(pressTimer); el.style.transform=''; });
+    el.addEventListener('pointercancel', ()=>{ clearTimeout(pressTimer); el.style.transform=''; });
     el.addEventListener('click', ()=>{ pop(el, pos, i); });
   });
-
-  const swatchGradients = [
-    'linear-gradient(135deg,#f9c9d6,#f2a23c)', 'linear-gradient(135deg,#ffd1e0,#ef5f7f)',
-    'linear-gradient(135deg,#c9f2e2,#3bc99a)', 'linear-gradient(135deg,#dadcfb,#6f7ee0)',
-    'linear-gradient(135deg,#ffe0c2,#f07a2e)'
-  ];
 
   function pop(el, pos, i){
     if(el.classList.contains('popped')) return;
     el.classList.add('popped');
     poppedCount++;
 
-    const burst = document.createElement('div');
-    burst.className = 'burst-gif';
-    burst.style.left = pos.left;
-    burst.style.top = pos.top;
-    burst.innerHTML = '<img src="' + burstGifs[i % burstGifs.length] + '" alt="balloon pop"/>';
-    field.appendChild(burst);
-    setTimeout(()=>{ burst.remove(); }, 900);
-
     const card = document.createElement('div');
-    card.className = 'polaroid';
-    card.innerHTML = '<div class="swatch" style="background:' + swatchGradients[i % swatchGradients.length] + '"></div><p>' + messages[i % messages.length] + '</p>';
-    card.style.transform = 'rotate(' + ((i % 2 === 0) ? -3 : 3) + 'deg)';
-    shelfScroll.appendChild(card);
-    shelfScroll.scrollLeft = shelfScroll.scrollWidth;
+    card.className = 'polaroid-reveal';
+    card.style.left = pos.left;
+    card.style.top = pos.top;
+    card.innerHTML =
+      '<div class="pgif"><img src="' + burstGifs[i % burstGifs.length] + '" alt="balloon surprise"/></div>' +
+      '<div class="cap">' + messages[i % messages.length] + '</div>';
+    field.appendChild(card);
+    requestAnimationFrame(()=> card.classList.add('open'));
 
     progressEl.textContent = poppedCount + ' / 5 popped';
+    if(poppedCount >= positions.length){
+      setTimeout(()=>{ balloonsContinueBtn.style.display = 'inline-block'; }, 500);
+    }
   }
 
   balloonsContinueBtn.addEventListener('click', ()=>{ show('photos'); });
 
-  // ---------------- Screen 4: photo upload ----------------
+  // ---------------- Photo upload ----------------
   const photoGrid = document.getElementById('photoGrid');
   const addTile = document.getElementById('addTile');
   const photoFileInput = document.getElementById('photoFileInput');
@@ -514,7 +506,7 @@
 
   document.getElementById('collageContinue').addEventListener('click', ()=>{ show('blessings'); });
 
-  // ---------------- Screen 5: calendar (uses chosen birthday date if given) ----------------
+  // ---------------- Calendar (uses chosen birthday date if given) ----------------
   function buildCalendar(){
     const grid = document.getElementById('calGrid');
     grid.innerHTML = '';
@@ -540,13 +532,11 @@
   }
   buildCalendar();
 
-  // ---------------- Screen 6: blessings ----------------
+  // ---------------- Blessings ----------------
   document.querySelectorAll('.flower-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       const idx = btn.getAttribute('data-idx');
-      const card = document.getElementById('blessCard' + idx);
-      card.classList.toggle('show');
-      btn.classList.toggle('opened');
+      document.getElementById('blessCard' + idx).classList.toggle('show');
     });
   });
 })();
