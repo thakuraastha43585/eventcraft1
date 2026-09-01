@@ -134,8 +134,10 @@
   .theme-card .swatch.sw-ocean{ background:linear-gradient(135deg,#bfe9f2,#1f9ab8); }
   .theme-card .tname{ font-size:11.5px; font-weight:700; color:var(--t-ink); }
 
-  /* ---------- Screen: FIRST PAGE — happy birthday + yes/no cheese game + doggy ---------- */
+  /* ---------- Screen: FIRST PAGE — gif + happy birthday + yes/no cheese game + doggy ---------- */
   #screen-first{ padding:0; align-items:center; justify-content:center; }
+  .first-gif-half{ width:100%; height:38%; flex-shrink:0; overflow:hidden; background:var(--t-bg1); position:relative; z-index:2; }
+  .first-gif-half img{ width:100%; height:100%; object-fit:cover; display:block; }
   .first-hero{ position:relative; flex:1; width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:22px; text-align:center; overflow:hidden; }
   .first-hero .balloons-bg span{ position:absolute; font-size:34px; opacity:.35; animation:float-bob 5s ease-in-out infinite; }
   .first-title{ font-size:32px; color:var(--t-primary-dark); line-height:1.15; position:relative; z-index:2; }
@@ -185,6 +187,7 @@
   }
   .polaroid-reveal.open{ transform:translate(-50%,-50%) scale(1); opacity:1; }
   .polaroid-reveal .pgif{ width:100%; aspect-ratio:1/1; overflow:hidden; border-radius:4px; background:var(--t-bg1); display:flex; align-items:center; justify-content:center; font-size:36px; }
+  .polaroid-reveal .pgif img{ width:100%; height:100%; object-fit:cover; display:block; }
   .polaroid-reveal .cap{
     position:absolute; left:8px; right:8px; bottom:8px; text-align:center;
     font-family:'Brush Script MT','Segoe Script',cursive; font-size:12.5px; color:var(--t-primary-dark); line-height:1.25;
@@ -275,6 +278,8 @@
   /* polaroid-style photo frame with a bottom caption strip, like the reference "Add Photo" frames */
   .pin.photo-pin{ background:var(--t-card); padding:8px 8px 26px; border-radius:3px; }
   .pin.photo-pin img{ aspect-ratio:1/1; object-fit:cover; border-radius:1px; }
+  .pin.gif-pin{ background:var(--t-card); padding:8px 8px 26px; border-radius:3px; }
+  .pin.gif-pin img{ aspect-ratio:1/1; object-fit:cover; border-radius:1px; }
   .pin-cap{
     position:absolute; left:0; right:0; bottom:0; padding:6px 8px 2px;
     color:var(--t-primary-dark); font-family:'Brush Script MT','Segoe Script',cursive; font-size:14px; text-align:center;
@@ -311,6 +316,8 @@
 
   /* ---------- Screen: flowers (final) ---------- */
   #screen-flowers{ padding:0; align-items:center; justify-content:flex-start; overflow-y:auto; }
+  .bless-gif-half{ width:100%; height:30%; flex-shrink:0; overflow:hidden; background:var(--t-bg1); position:relative; z-index:2; }
+  .bless-gif-half img{ width:100%; height:100%; object-fit:cover; display:block; }
   .flowers-hero{ width:100%; padding:26px 22px 10px; text-align:center; position:relative; z-index:2; }
   .flowers-hero h2{ font-size:25px; }
   .flowers-hero p.sub{ color:var(--t-sub); font-size:12.5px; margin:4px 0 0; }
@@ -377,8 +384,11 @@
     <button type="button" class="primary-btn" id="nameContinue" disabled>Continue</button>
   </section>
 
-  <!-- SCREEN: FIRST PAGE — happy birthday + yes/no game + doggy -->
+  <!-- SCREEN: FIRST PAGE — gif + happy birthday + yes/no game + doggy -->
   <section class="screen" id="screen-first">
+    <div class="first-gif-half">
+      <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3eThpaHowdnRxN2c5bzBjMXo4d2VpYXdwNXk2OHhwYTZzaDl4dHZmYSZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/oZHLtSqQeW8JrpyRIr/giphy.gif" alt="celebration" />
+    </div>
     <div class="theme-deco" id="themeDecoFirst"></div>
     <div class="first-hero">
       <div class="balloons-bg" id="firstBalloonsBg"></div>
@@ -474,6 +484,11 @@
 
       <div class="pin quote-pin rot-l"><p id="quoteText">&ldquo;Today is your day to bloom, Friend.&rdquo; 🌸</p></div>
 
+      <div class="pin gif-pin">
+        <img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3eThpaHowdnRxN2c5bzBjMXo4d2VpYXdwNXk2OHhwYTZzaDl4dHZmYSZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/lyqiwkFISfNyWkZwGc/giphy.gif" alt="confetti sticker"/>
+        <div class="pin-cap">confetti for you 🎉</div>
+      </div>
+
       <div class="pin emoji-pin" id="themeEmojiPin1">🎉</div>
 
       <div class="pin span-all" style="text-align:center;">
@@ -481,6 +496,11 @@
       </div>
 
       <div class="pin emoji-pin rot-r" id="themeEmojiPin2">💌</div>
+
+      <div class="pin gif-pin">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXdnbWtncm5mM3R3N3lqdWR6MWZpbnBhZTc1aGJ3YXp5YmMwa3M5bCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/u2EG5bHYyTZhjmeWyJ/giphy.gif" alt="celebration sticker"/>
+        <div class="pin-cap">celebrate loud 💃</div>
+      </div>
 
       <div class="pin rose-corner" id="roseCorner">🌹🌷🌹</div>
 
@@ -567,6 +587,9 @@
 
   <!-- SCREEN: flowers — final, blooming + confetti -->
   <section class="screen" id="screen-flowers">
+    <div class="bless-gif-half">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc3JrN3RncTVwODhrdThqbnUxdDNmdmdsMXgyazk0ejJveHBiMTlrMSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/yUThmGwfT1hrORu84T/giphy.gif" alt="celebration" />
+    </div>
     <div class="theme-deco" id="themeDecoFlowers"></div>
     <div class="flowers-hero">
       <h2 class="script-font">A few blessings for you</h2>
@@ -925,6 +948,13 @@
     {left:'20%', top:'12%'}, {left:'70%', top:'10%'}, {left:'45%', top:'38%'},
     {left:'78%', top:'60%'}, {left:'16%', top:'62%'}
   ];
+  const burstGifs = [
+    'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2FkY2MzZXE0bG92dm8xb3ZhaWF3Y2lsb3M4M3cwMW84eWJienBoNCZlcD12MV9naWZzX3RyZW5kaW5nJmN0PWc/OuQmhmAAdJFLi/giphy.gif',
+    'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExem9zeHhsajZlZnNhdjVqcGxzeWdoaXN3NzNoaGhvZWp1ZzAzMzc3dSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/YTbZzCkRQCEJa/giphy.gif',
+    'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3bGdyM3lkbWk5bWJybnF0OWF2dzN2YmhpamNtbjN3ZjN6cWNzdnRycCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/xWXLEKVutp1UPqG6tJ/giphy.gif',
+    'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3NzdsZnM2dDh5bTQ2dXlteGh6YTk1d28yYzh2OTE1aTNkc2hnYTdxNCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/UqlLJ4YY8QrPJaHDAj/giphy.gif',
+    'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3YzVjYnI3MXU5a3M1ZWl1dHNjZ3gyeWRyMWRocHNiOWJidnd5cnJubSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/rM0Mh6BbJAUseNmNKN/giphy.gif'
+  ];
 
   const field = document.getElementById('balloonField');
   const progressEl = document.getElementById('balloonProgress');
@@ -970,7 +1000,7 @@
     card.style.left = pos.left;
     card.style.top = pos.top;
     card.innerHTML =
-      '<div class="pgif">' + THEMES[currentTheme].decor[i % THEMES[currentTheme].decor.length] + '</div>' +
+      '<div class="pgif"><img src="' + burstGifs[i % burstGifs.length] + '" alt="balloon surprise"/></div>' +
       '<div class="cap">' + messages[i % messages.length] + '</div>';
     field.appendChild(card);
     requestAnimationFrame(()=> card.classList.add('open'));
