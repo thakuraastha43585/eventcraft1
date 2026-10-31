@@ -8,11 +8,13 @@
 :root{--red:#c4161c;--deep:#a3121a;--cream:#f4f2f0;--pink:#e9879a}
 *{box-sizing:border-box;margin:0}
 html,body{height:100%;overflow:hidden;background:var(--cream);font-family:'Sniglet',cursive;color:var(--red)}
-body::before{content:"";position:fixed;inset:0;background:
- repeating-conic-gradient(#e8553c33 0 25%,#fff0 0 50%) 0 0/36px 36px;
- -webkit-mask:linear-gradient(90deg,#000 0,#000 28px,#0000 28px,#0000 calc(100% - 28px),#000 calc(100% - 28px));
- mask:linear-gradient(90deg,#000 0,#000 28px,#0000 28px,#0000 calc(100% - 28px),#000 calc(100% - 28px));pointer-events:none}
-.s{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;padding:28px 40px;text-align:center;overflow:hidden}
+:root{--b:58px}
+body{background:none}
+#bg{position:fixed;inset:0;background:#fbeee9 center/cover;z-index:-2}
+#bg::after{content:"";position:absolute;inset:0;background:rgba(255,255,255,.5)}
+body::before{content:"";position:fixed;inset:0;z-index:50;pointer-events:none;padding:var(--b);background:repeating-conic-gradient(#d63a28 0 25%,#fff 0 50%) 0 0/44px 44px;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+body::after{content:"";position:fixed;inset:calc(var(--b) - 6px);z-index:51;pointer-events:none;border:6px solid #fff;border-radius:26px;box-shadow:0 0 0 3px var(--red),inset 0 0 0 3px var(--red),0 6px 18px #0004}
+.s{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;padding:calc(var(--b) + 16px) calc(var(--b) + 22px);text-align:center;overflow:hidden}
 .s.on{display:flex}
 h1,h2{font-weight:800;line-height:1.15}
 h2{font-size:clamp(1.8rem,6vw,3.2rem)}
@@ -44,7 +46,7 @@ label{display:block;font-size:1.1rem;margin-top:8px}
 .ph{width:100%;aspect-ratio:4/3;object-fit:cover;background:linear-gradient(135deg,#f6c1cc,#fbe3e8);display:block}
 .circ{position:absolute;right:-14px;bottom:-60px;width:120px;height:120px;border-radius:50%;border:6px solid #fff;object-fit:cover;background:#f6c1cc}
 .clickme{position:absolute;top:8px;right:8px;width:76px;height:64px;border:0;border-radius:50%;background:#f7d3df;color:#b77;font:800 .7rem 'Sniglet';cursor:pointer;animation:beat 1.4s infinite;z-index:3}
-.go{position:fixed;right:22px;top:50%;font-size:3rem;color:var(--red);cursor:pointer;background:none;border:0;animation:nudge 1s infinite;z-index:9}
+.go{position:fixed;right:calc(var(--b) + 14px);top:50%;font-size:3rem;color:var(--red);cursor:pointer;background:none;border:0;animation:nudge 1s infinite;z-index:9}
 @keyframes nudge{50%{transform:translateX(8px)}}
 /* memories */
 .mem{background:#efeae4;background-image:radial-gradient(#0001 1px,#0000 1px);background-size:5px 5px}
@@ -58,14 +60,12 @@ label{display:block;font-size:1.1rem;margin-top:8px}
 @keyframes drop{from{opacity:0;transform:translateY(-120px) rotate(18deg)}to{opacity:1;transform:rotate(var(--r))}}
 @keyframes pop{from{opacity:0;transform:scale(.2) rotate(var(--r))}}
 /* gifts */
-.gifts{display:flex;gap:clamp(8px,4vw,50px);margin:14px 0}
-.gift{width:clamp(80px,22vw,200px);cursor:pointer;font-size:clamp(4rem,14vw,9rem);line-height:1;transition:transform .2s;filter:hue-rotate(-20deg) saturate(.8);position:relative}
+.gifts{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(10px,3vw,40px);margin:14px 0}
+.gift{width:clamp(100px,19vw,190px);cursor:pointer;background:none;border:0;font:800 1.05rem 'Sniglet';color:var(--red);transition:transform .2s;position:relative}
+.gift img{width:100%;aspect-ratio:1;object-fit:contain;display:block}
 .gift:hover{transform:scale(1.08) rotate(-4deg)}
 .gift.shake{animation:shake .5s}
-.gift .rev{position:absolute;inset:0;display:none;font:500 .95rem/1.3 'Mali';color:#400;background:#fff;border:3px solid var(--red);border-radius:16px;padding:8px;align-items:center;justify-content:center;filter:none}
-.gift.open .rev{display:flex;animation:pop .4s both;--r:0deg}
-.gift.open .box{display:none}
-.gift .rev img{max-width:100%;max-height:100%;border-radius:10px}
+.gift.done::after{content:"\2713";position:absolute;top:0;right:6px;width:30px;height:30px;line-height:30px;border-radius:50%;background:var(--red);color:#fff}
 @keyframes shake{25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
 .tap{font-size:1.8rem;margin-top:8px}
 /* letter */
@@ -75,15 +75,17 @@ label{display:block;font-size:1.1rem;margin-top:8px}
 .letter p{font:500 1.05rem/1.7 'Mali';color:#2a2a2a;margin-top:8px;white-space:pre-line}
 /* misc */
 .big{font-size:clamp(1.8rem,6vw,3.4rem);max-width:760px}
-.corner{position:fixed;left:16px;bottom:16px;z-index:20;width:46px;height:46px;border-radius:50%;border:0;background:var(--red);color:#fff;font-size:1.3rem;cursor:pointer;display:none}
+.back{position:fixed;left:calc(var(--b) + 14px);top:calc(var(--b) + 14px);font-size:1rem;padding:.4em 1.1em;z-index:60}
+.corner{position:fixed;left:calc(var(--b) + 12px);bottom:calc(var(--b) + 12px);z-index:20;width:46px;height:46px;border-radius:50%;border:0;background:var(--red);color:#fff;font-size:1.3rem;cursor:pointer;display:none}
 .err{font:500 1rem 'Mali';color:#900;min-height:1.4em}
 .pay input{width:140px;text-align:center}
 .conf{position:fixed;top:-20px;font-size:1.6rem;animation:fall linear forwards;z-index:30;pointer-events:none}
 @keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
-@media(max-width:700px){.bd{grid-template-columns:1fr;text-align:center}.bd p{margin-inline:auto}.circ{width:84px;height:84px;bottom:-40px}.s{padding:20px 22px}.line{flex-wrap:wrap}.card{width:28vw;margin-bottom:10px}}
+@media(max-width:700px){.bd{grid-template-columns:1fr;text-align:center}.bd p{margin-inline:auto}.circ{width:84px;height:84px;bottom:-40px}:root{--b:34px}.line{flex-wrap:wrap}.card{width:28vw;margin-bottom:10px}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important}}
 </style></head><body>
 
+<div id="bg"></div>
 <audio id="bgm" loop preload="auto"></audio>
 <button class="corner" id="mus" aria-label="Toggle music">♪</button>
 
@@ -108,7 +110,7 @@ label{display:block;font-size:1.1rem;margin-top:8px}
 <!-- 2 ask -->
 <section class="s" id="s2">
  <svg class="arc" viewBox="0 0 640 170"><path id="ap" d="M20 160 Q320 -60 620 160" fill="none"/><text text-anchor="middle"><textPath href="#ap" startOffset="50%">I have made something for you</textPath></text></svg>
- <img class="gif" data-gif="0" alt="">
+ <img class="gif" data-gif="ask" alt="">
  <div class="q">Do you wanna see it?</div>
  <div class="row"><button class="btn" id="yes" onclick="go(3)">YES</button><button class="btn" id="no">NO</button></div>
 </section>
@@ -118,14 +120,14 @@ label{display:block;font-size:1.1rem;margin-top:8px}
  <div><div class="hp">HAPPY</div><div class="bs">Birthday</div>
   <p id="bdmsg"></p><span class="rib" id="bdname"></span></div>
  <div class="pol"><img class="ph" data-photo="0" alt=""><img class="circ" data-photo="1" alt="">
-  <button class="clickme" onclick="go(4)">CLICK ME</button></div>
+  <button class="clickme" onclick="go(5)">CLICK ME</button></div>
 </div></section>
 
 <!-- 4 memories -->
 <section class="s mem" id="s4">
  <div class="ransom" id="ransom"></div>
  <div class="line" id="line"></div>
- <button class="go" onclick="go(5)" aria-label="Next">❯</button>
+ <button class="btn back" onclick="go(5)">❮ Back to gifts</button>
 </section>
 
 <!-- 5 gifts -->
@@ -133,25 +135,25 @@ label{display:block;font-size:1.1rem;margin-top:8px}
  <h2>Each gift has something for you..</h2>
  <div class="gifts" id="gifts"></div>
  <div class="tap" id="tap">CLICK THE GIFT</div>
- <button class="go" id="g5" style="display:none" onclick="go(6)" aria-label="Next">❯</button>
+ <button class="go" id="g5" style="display:none" onclick="go(8)" aria-label="Next">❯</button>
 </section>
 
 <!-- 6 letter -->
 <section class="s" id="s6">
  <div class="letter"><h2>My fav person</h2><b id="dear"></b><p id="lbody"></p></div>
- <button class="go" onclick="go(7)" aria-label="Next">❯</button>
+ <button class="btn back" onclick="go(5)">❮ Back to gifts</button>
 </section>
 
 <!-- 7 wish -->
 <section class="s" id="s7">
  <div class="big h2">May all the good things you've been waiting for finally find you this year 💌</div>
- <img class="gif" data-gif="1" alt="">
- <button class="btn" onclick="go(8)">One last thing</button>
+ <img class="gif" data-gif="cute" alt="">
+ <button class="btn back" onclick="go(5)">❮ Back to gifts</button>
 </section>
 
 <!-- 8 razorpay -->
 <section class="s pay" id="s8">
- <img class="gif" data-gif="3" alt="">
+ <img class="gif" data-gif="ask" alt="">
  <h2 id="payh"></h2>
  <div style="margin:14px 0"><span style="font-size:1.6rem">₹</span> <input id="amt" type="number" min="1" value="51" inputmode="numeric"></div>
  <button class="btn" onclick="pay()">Send a gift</button>
@@ -161,14 +163,20 @@ label{display:block;font-size:1.1rem;margin-top:8px}
 <!-- 9 how dare you -->
 <section class="s" id="s9">
  <h2 style="letter-spacing:.05em">HOW DARE YOU!?</h2>
- <img class="gif" data-gif="2" alt="">
+ <img class="gif" data-gif="howdare" alt="">
  <button class="btn" onclick="go(8)">TRY AGAIN</button>
 </section>
 
 <!-- 10 thanks -->
 <section class="s" id="s10">
  <h2 class="big" id="thx"></h2>
- <img class="gif" data-gif="0" alt="">
+ <img class="gif" data-gif="thanks" alt="">
+</section>
+
+<!-- 11 cake -->
+<section class="s" id="s11"><button class="btn back" onclick="go(5)">❮ Back to gifts</button>
+ <div style="font:400 clamp(3rem,12vw,7rem)/1 'Great Vibes'">Happy Birthday</div>
+ <h2 id="cakename"></h2><img class="gif" data-gif="cake" style="max-height:46vh" alt="">
 </section>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -179,14 +187,17 @@ const CONFIG={
   brand:"Birthday Surprise",
   music:"music.mp3",                        // put your file next to index.html
   photos:["photos/1.jpg","photos/2.jpg","photos/3.jpg","photos/4.jpg","photos/5.jpg","photos/6.jpg","photos/7.jpg"],
-  // [ask, wish, how-dare-you, payment]  (swap order as you like)
-  gifs:[
-   "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmNwNHFkcXRyaTQwOHJnNjNkMzY3ZXBwbnN6ZXV6NHEyY2N2NmpjZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/UW2trnVEAftqckaHCI/giphy.gif",
-   "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmNwNHFkcXRyaTQwOHJnNjNkMzY3ZXBwbnN6ZXV6NHEyY2N2NmpjZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/azO6FjImLXw6fEC4EY/giphy.gif",
-   "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmNwNHFkcXRyaTQwOHJnNjNkMzY3ZXBwbnN6ZXV6NHEyY2N2NmpjZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/y7hFGjpKGo7qe1Tksx/giphy.gif",
-   "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmNwNHFkcXRyaTQwOHJnNjNkMzY3ZXBwbnN6ZXV6NHEyY2N2NmpjZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/QO6gybBh0d4LLTNn1d/giphy.gif"],
+  // Swap any ID/URL here to change which GIF appears where
+  gif:{
+   box:"https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmNwNHFkcXRyaTQwOHJnNjNkMzY3ZXBwbnN6ZXV6NHEyY2N2NmpjZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/UW2trqVEAftqckaHCI/giphy.gif",      // the gift icon on the gifts page
+   ask:"https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmNwNHFkcXRyaTQwOHJnNjNkMzY3ZXBwbnN6ZXV6NHEyY2N2NmpjZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/azO6FjImLXw6fEC4EY/giphy.gif",      // "Do you wanna see it?" + payment screen
+   howdare:"https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmNwNHFkcXRyaTQwOHJnNjNkMzY3ZXBwbnN6ZXV6NHEyY2N2NmpjZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/y7hFGjpKGo7qe1Tksx/giphy.gif",  // "How dare you"
+   cute:"https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmNwNHFkcXRyaTQwOHJnNjNkMzY3ZXBwbnN6ZXV6NHEyY2N2NmpjZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/QO6gybBh0d4LLTNn1d/giphy.gif",     // the "little wish" gift page
+   cake:"https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYnA3dWg0NXY4c3c0ZjFrYmRvazFxenkzY21ld3locWtwcWJja2lsZSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/giKdkKxdDWecg524cE/giphy.gif", // Happy Birthday cake gift page
+   bg:"https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2s4ZGo4cmprY3ZwNzloNzd6bDN6cWxoeDZnbDl1ZGt5NWNlYnR0MCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/TSpM3iivfaVfH5zjAC/giphy.gif",   // full-site background
+   thanks:"https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWVweTFyNTk2cmZtajVuZ2xqMXhpOXFtbWs4eXhzNzAwN3UxczF2ZCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/TbyAOtYa4ywrSpvjtm/giphy.gif" // thank-you screen
+  },
   birthdayMsg:"Happy birthday! Wishing you a little bit of happiness, love, laughter, and joy today and always.",
-  gifts:[{t:"You deserve all the cake today 🎂"},{g:1},{t:"Never forget how loved you are 💗"}],
   letter:"Happy Birthday, {to}! ❤️\nI honestly don't know how to put into words how grateful I am to have you in my life. Thank you for being my biggest supporter, my partner in crime, and the person I can always count on. Through all the laughs, random conversations, inside jokes, and even the tough days, you've made life so much better just by being a part of it.\nI hope this year is as wonderful as you are.\n\n— {from}"
 };
 /* ====================== */
@@ -195,7 +206,8 @@ let from="",to="",cur=0,noCount=0,musicOn=false;
 const bgm=$('#bgm');bgm.src=CONFIG.music;
 const q=new URLSearchParams(location.search);
 $('#fromN').value=q.get('from')||"";$('#toN').value=q.get('to')||"";
-$$('[data-gif]').forEach(i=>i.src=CONFIG.gifs[i.dataset.gif]);
+$$('[data-gif]').forEach(i=>i.src=CONFIG.gif[i.dataset.gif]);
+$('#bg').style.backgroundImage=`url(${CONFIG.gif.bg})`;
 function photo(i,img){img.src=CONFIG.photos[i%CONFIG.photos.length];img.onerror=()=>{img.removeAttribute('src');img.onerror=null}}
 $$('[data-photo]').forEach(i=>photo(+i.dataset.photo,i));
 
@@ -204,7 +216,7 @@ function go(n){
   const el=$('#s'+n);el.classList.add('on');cur=n;
   if(n===4)buildMemories();
   if(n===5)buildGifts();
-  if(n===3||n===9||n===10)confetti(n===3?16:10);
+  if(n===3||n===9||n===10||n===11)confetti(n===3?16:10);
   if(n===2)resetNo();
   if(n>=1){$('#mus').style.display='block'}
 }
@@ -212,7 +224,7 @@ function startMusic(){bgm.play().then(()=>{musicOn=true;$('#mus').textContent='�
 $('#mus').onclick=()=>{musicOn?(bgm.pause(),musicOn=false,$('#mus').textContent='🔇'):startMusic()};
 function startSite(e){
   e.preventDefault();from=$('#fromN').value.trim();to=$('#toN').value.trim();
-  $('#bdname').textContent=to;$('#bdmsg').textContent=CONFIG.birthdayMsg;
+  $('#bdname').textContent=to;$('#cakename').textContent=to+' 🎂';$('#bdmsg').textContent=CONFIG.birthdayMsg;
   $('#dear').textContent='Dear '+to+',';
   $('#lbody').textContent=CONFIG.letter.replaceAll('{to}',to).replaceAll('{from}',from);
   $('#payh').textContent=`Before you go, ${to}…`;
@@ -244,14 +256,13 @@ function buildMemories(){
     const im=document.createElement('img');im.className='ph';photo(2+i,im);c.appendChild(im);l.appendChild(c)}
 }
 /* gifts */
+const PAGES=[{n:'Memories',p:4},{n:'Happy Birthday',p:11},{n:'My fav person',p:6},{n:'A little wish',p:7}],seen=new Set();
 function buildGifts(){
-  const g=$('#gifts');g.innerHTML='';$('#g5').style.display='none';$('#tap').style.display='';
-  CONFIG.gifts.forEach(x=>{const d=document.createElement('div');d.className='gift';
-    d.innerHTML=`<span class="box">🎁</span><div class="rev">${x.g!=null?`<img src="${CONFIG.gifs[3]}" alt="">`:x.t}</div>`;
-    d.onclick=()=>{if(d.classList.contains('open'))return;d.classList.add('shake');
-      setTimeout(()=>{d.classList.remove('shake');d.classList.add('open');confetti(8);
-        if($$('.gift.open').length===CONFIG.gifts.length){$('#g5').style.display='block';$('#tap').style.display='none'}},450)};
-    g.appendChild(d)});
+  const g=$('#gifts');g.innerHTML='';
+  PAGES.forEach(x=>{const d=document.createElement('button');d.className='gift'+(seen.has(x.p)?' done':'');
+    d.innerHTML=`<img src="${CONFIG.gif.box}" alt=""><span>${x.n}</span>`;
+    d.onclick=()=>{d.classList.add('shake');setTimeout(()=>{seen.add(x.p);go(x.p)},450)};g.appendChild(d)});
+  const all=seen.size===PAGES.length;$('#g5').style.display=all?'block':'none';$('#tap').style.display=all?'none':'';
 }
 function confetti(n){for(let i=0;i<n;i++){const e=document.createElement('div');e.className='conf';
   e.textContent=['🌸','❤️','✨','🎀','🍒'][i%5];e.style.left=Math.random()*100+'vw';
